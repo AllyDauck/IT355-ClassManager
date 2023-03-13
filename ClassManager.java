@@ -242,14 +242,6 @@ public class ClassManager {
 		}
 	}
 
-	/
-
-	 Recommendation: MET5
-	0-. Avoid ambigu
-	/ This reco
-	/ If we wanted to, we could have
-	// made the addStudentToFile and
-
 	// Add a class - will ask to add students now, can be done later
 	private static void addClass() {
 		System.out.print("Add class from CSV? (y or n): ");
