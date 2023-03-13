@@ -140,6 +140,7 @@ public class Class {
 				System.out.println("Invalid input, please enter a number.");
 				System.out.print("\nPlease pick an option: ");
 				choiceCheck = scanner.nextLine();
+				scanInput = new Scanner(choiceCheck);
 			}
 			choice = Integer.parseInt(choiceCheck);
 		} while (choice < 1 || choice > students.size());
@@ -159,6 +160,7 @@ public class Class {
 				System.out.println("Invalid input, please enter a number.");
 				System.out.print("\nPlease pick an option: ");
 				choiceCheck = scanner.nextLine();
+				scanInput = new Scanner(choiceCheck);
 			}
 			choice = Integer.parseInt(choiceCheck);
 		} while (choice < 1 || choice > grades.size());
