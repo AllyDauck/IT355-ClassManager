@@ -81,7 +81,11 @@ public class ClassManager {
 	// for, or while condition
 	// why would you do this? yucky
 
-	//
+	// Recommendation: MET50-J: Avoid ambiguous or confusing uses of overloading.
+	// We do not use overloading, but could have in several instances. One way the
+	// SEI CERT document suggest to uphold this recommendation is to not use
+	// overloading and to just use different method names.
+
 	// Recommendation: ERR53-J. Try to gracefully recover from system errors
 	// try-catches used where system errors may occur and allow program to recover
 
