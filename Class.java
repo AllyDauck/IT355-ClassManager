@@ -57,8 +57,6 @@ public class Class {
 	}
 
 	public void addStudent(Student studentToAdd) {
-		Student toAdd = new Student(studentToAdd.getFirstName(), studentToAdd.getLastName(),
-				studentToAdd.getStudentID());
 		students.add(studentToAdd);
 		students.get(students.size() - 1).setGradesList(grades);
 	}
