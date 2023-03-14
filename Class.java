@@ -192,7 +192,7 @@ public class Class {
 			System.out.println("-------------------------------------------");
 			for (int i = 0; i < grades.size(); i++) {
 				System.out.println(grades.get(i).getGradeItemName() + ":\t" + grades.get(i).getMaxPoints() + "\t"
-						+ format.format(getGradeItemAverage(i)));
+						+ getGradeItemAverage(i));
 			}
 		} else {
 			System.out.println("No grades have been entered.");
