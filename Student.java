@@ -13,7 +13,6 @@ public final class Student {
 	private String firstName;
 	private String lastName;
 	private String studentID;
-	private String fullName;
 	private ArrayList<GradeItem> grades;
 
 	// Rule Code: OBJ11-J Be wary of letting constructors throw exceptions
@@ -24,7 +23,7 @@ public final class Student {
 		// MET05-J. Ensure that constructors do not call overridable methods.
 		// the getName method is not overridable because it was declared as final.
 		// Therefore we can use it in the constructor.
-		fullName = this.getName();
+		System.out.println("Student " + this.getName() + " added.");
 
 		grades = new ArrayList<GradeItem>();
 	}
