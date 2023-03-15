@@ -19,18 +19,39 @@ import java.util.regex.Pattern;
  */
 public class ClassManager {
 
-	// EXP00-J: Do not ignore values returned by methods
+	// Rule Code: EXP00-J Do not ignore values returned by methods
 	// used every time we use choice = scanner.nextLine() instead of just
 	// scanner.nextLine()
 
-	// ENV06-J: Production code must not contain debugging entry points
+	// Rule Code: ENV06-J Production code must not contain debugging entry points
 	// compliant by not including a debugging method in the final product
 
-	// Rule Code: ERR07-J, Do not throw Runtime Exception, Exception, or Throwable
+	// Rule Code: ERR07-J Do not throw Runtime Exception, Exception, or Throwable
 	// no exceptions will be thrown
 
 	// Rule Code: NUM09-J Do not use floating-point variables as loop counters
 	// all counters used are ints
+
+	// Rule Code: OBJ10-J Do not use public static nonfinal fields
+
+	// Rule Code: FIO03-J Remove temporary files before termination
+	// no temporary files needed
+
+	// Rule Code: EXP03-J Do not use the equality operators when comparing values of
+	// boxed primitives
+	//
+
+	// Rule Code: MET06-J Do not invoke overridable methods in clone()
+	//
+
+	// Rule Code: EXP02-J Do not use the Object.equals() method to compare two
+	// arrays
+	// this is not relevant as we decided to use vectors to avoid array
+	// innefficiency
+
+	// Do not compare or inspect the string representation of floating-point values
+	// floating point values are not permitted in this program and will be checked
+	// during input validation
 
 	// Recommendation Code: IDS50-J. Use conservative file naming conventions
 	// all files are named accordingly and appropriately
@@ -45,7 +66,7 @@ public class ClassManager {
 
 	// Recommendation: EXP51-J. Do not perform assignments in conditional
 	// expressions
-	// this is never done - why would you?
+	//
 
 	// Recommendation: DCL53-J. Minimize the scope of variables
 	// all variables are in appropriate scope for usage or they are transfered along
@@ -261,12 +282,27 @@ public class ClassManager {
 
 			System.out.print("Enter the class number: ");
 			String classNumber = scanner.nextLine();
+			while (!stringValidation(classNumber)) {
+				System.out.println("Invalid entry.");
+				System.out.println("Please enter the class number: ");
+				classNumber = scanner.nextLine();
+			}
 
 			System.out.print("Enter the section number: ");
 			String sectionNumber = scanner.nextLine();
+			while (!stringValidation(sectionNumber)) {
+				System.out.println("Invalid entry.");
+				System.out.println("Please enter the section number: ");
+				sectionNumber = scanner.nextLine();
+			}
 
 			System.out.print("Enter the class name: ");
 			String className = scanner.nextLine();
+			while (!stringValidation(className)) {
+				System.out.println("Invalid entry.");
+				System.out.println("Please enter the class name: ");
+				className = scanner.nextLine();
+			}
 
 			classes.add(new Class(className, classNumber, sectionNumber));
 
@@ -291,11 +327,27 @@ public class ClassManager {
 	// actual code for adding the student object
 	private static void addStudentToClass(int classIndex) {
 		System.out.print("\nEnter student first name: ");
+
 		String firstName = scanner.nextLine();
+		while (!stringValidation(firstName)) {
+			System.out.println("Invalid entry.");
+			System.out.println("Please enter the first name: ");
+			firstName = scanner.nextLine();
+		}
 		System.out.print("Enter student last name: ");
 		String lastName = scanner.nextLine();
+		while (!stringValidation(lastName)) {
+			System.out.println("Invalid entry.");
+			System.out.println("Please enter the last name: ");
+			lastName = scanner.nextLine();
+		}
 		System.out.print("Enter student ID: ");
 		String studentID = scanner.nextLine();
+		while (!stringValidation(studentID)) {
+			System.out.println("Invalid entry.");
+			System.out.println("Please enter the file name: ");
+			studentID = scanner.nextLine();
+		}
 		classes.get(classIndex).addStudent(new Student(firstName, lastName, studentID));
 	}
 
@@ -401,6 +453,7 @@ public class ClassManager {
 					System.out.print("Please enter the corrected grade: ");
 					String choiceCheck = scanner.nextLine();
 					Scanner scanInput = new Scanner(choiceCheck);
+					// IDS03-J. Do not log unsanitized user input
 					while (!scanInput.hasNextInt()) {
 						System.out.println("Invalid input, please enter a number.");
 						System.out.print("\nPlease pick an option: ");
@@ -430,6 +483,7 @@ public class ClassManager {
 			System.out.print("Score: ");
 			String choiceCheck = scanner.nextLine();
 			Scanner scanInput = new Scanner(choiceCheck);
+			// IDS03-J. Do not log unsanitized user input
 			while (!scanInput.hasNextInt()) {
 				System.out.println("Invalid input, please enter a number.");
 				System.out.println("Score: ");
@@ -450,6 +504,7 @@ public class ClassManager {
 			System.out.print("\nPlease pick an option: ");
 			String choiceCheck = scanner.nextLine();
 			Scanner scanInput = new Scanner(choiceCheck);
+			// IDS03-J. Do not log unsanitized user input
 			while (!scanInput.hasNextInt()) {
 				System.out.println("Invalid input, please enter a number.");
 				System.out.print("\nPlease pick an option: ");
@@ -473,6 +528,7 @@ public class ClassManager {
 			System.out.print("\nPlease pick an option: ");
 			String choiceCheck = scanner.nextLine();
 			Scanner scanInput = new Scanner(choiceCheck);
+			// IDS03-J. Do not log unsanitized user input
 			while (!scanInput.hasNextInt()) {
 				System.out.println("Invalid input, please enter a number.");
 				System.out.print("\nPlease pick an option: ");
@@ -490,10 +546,11 @@ public class ClassManager {
 	// final
 	// Recommendation: MET54-J. Always provide feedback about the resulting value of
 	// a method
+	// IDS03-J. Do not log unsanitized user input
 	private static boolean stringValidation(String validate) {
 		validate = Normalizer.normalize(validate, Form.NFKC);
 
-		Pattern pattern = Pattern.compile("[<>]");
+		Pattern pattern = Pattern.compile("[A-Za-z0-9_]+");
 		Matcher matcher = pattern.matcher(validate);
 		if (matcher.find()) {
 			// Found blacklisted tag
@@ -504,4 +561,4 @@ public class ClassManager {
 		}
 	}
 
-}
+}// SQL trim special characters
