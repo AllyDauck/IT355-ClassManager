@@ -91,16 +91,17 @@ public class Class {
 		return newStudents;
 	}
 
-	public double getClassAverage() {
+	public double getClassAverage() throws DivideByZeroException {
 		double totalClass = 0;
 		for (int i = 0; i < students.size(); i++) {
 			totalClass += students.get(i).getTotalGrade();
 		}
 		// NUM02-J. Ensure that division and remainder operations do not result in
 		// divide-by-zero errors
-		double average = 0;
-		if (students.size() != 0) {
-			average = (totalClass / students.size());
+		// ERR51-J. Prefer user-defined exceptions over more general exception types
+		double average = (totalClass / students.size());
+		if (Double.isNaN(average) || Double.isInfinite(average)) {
+			throw new DivideByZeroException("Division by Zero Error");
 		}
 		return average;
 	}
@@ -230,5 +231,11 @@ public class Class {
 		}
 		System.out.println();
 
+	}
+
+	class DivideByZeroException extends Exception {
+		public DivideByZeroException(String str) {
+			super(str);
+		}
 	}
 }

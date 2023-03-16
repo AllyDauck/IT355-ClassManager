@@ -373,7 +373,7 @@ public class ClassManager {
 	// grade items 4.) update a student grade 5.) display class average 6.) print to
 	// csv
 	// 7.) quit
-	private static void manageClass(int classIndex) {
+	private static void manageClass(int classIndex) throws Class.DivideByZeroException {
 		int classManageSelection;
 		do {
 			classManageSelection = displayMenu(CLASS_MANAGE_OPTIONS);
