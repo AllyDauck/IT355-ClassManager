@@ -146,6 +146,8 @@ public class ClassManager {
 					break;
 			}
 		} while (choice != 3);
+		//OBJ52 - Write Garbage Friendly Code
+		System.gc();
 	}
 
 	private static void readFile() {
@@ -184,7 +186,8 @@ public class ClassManager {
 			}
 			System.out.println();
 			System.out.println("File successful read.");
-		} catch (FileNotFoundException e) {
+		} //ERR07-J Do not throw Runtime Exception, Exception, or Throwable
+		catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} finally {
 			// ERR08-J. Do not catch NullPointerException or any of its ancestors
@@ -220,6 +223,7 @@ public class ClassManager {
 					+ classToPrint.getClassSection());
 			printer.print(",");
 			for (int i = 2; i < classToPrint.getGradesSize() + 2; i++) {
+				//EXP550J Use the same type for second and third operands in conditional expressions
 				if (i == classToPrint.getGradesSize() + 1) {
 					printer.println(classToPrint.getGradeItem(i - 2).getGradeItemName());
 				} else {
@@ -228,6 +232,7 @@ public class ClassManager {
 			}
 			printer.print("Total,");
 			for (int i = 2; i < classToPrint.getGradesSize() + 2; i++) {
+				//EXP550J Use the same type for second and third operands in conditional expressions
 				if (i == classToPrint.getGradesSize() + 1) {
 					printer.println(classToPrint.getGradeItem(i - 2).getMaxPoints());
 				} else {
@@ -245,6 +250,7 @@ public class ClassManager {
 				printer.print("\"" + toPrint.getLastName() + "," + toPrint.getFirstName() + "," + toPrint.getStudentID()
 						+ "\",");
 				for (int j = 0; j < classToPrint.getGradesSize(); j++) {
+					//EXP550J Use the same type for second and third operands in conditional expressions
 					if (j == classToPrint.getGradesSize() - 1) {
 						printer.println(toPrint.getGrade(j).getEarnedPoints());
 					} else {
@@ -255,7 +261,8 @@ public class ClassManager {
 			}
 			System.out.println("File saved successfully.");
 			System.out.println();
-		} catch (IOException e) {
+		} //ERR07-J Do not throw Runtime Exception, Exception, Throwable
+		catch (IOException e) {
 			System.out.println(e.getMessage());
 		} finally {
 			// ERR08-J. Do not catch NullPointerException or any of its ancestors
@@ -552,6 +559,7 @@ public class ClassManager {
 
 		Pattern pattern = Pattern.compile("[A-Za-z0-9_]+");
 		Matcher matcher = pattern.matcher(validate);
+		//EXP550J Use the same type for second and third operands in conditional expressions
 		if (matcher.find()) {
 			// Found blacklisted tag
 			return false;
