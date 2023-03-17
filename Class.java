@@ -1,6 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Iterator;
 
 /**
  * <insert class description here>
@@ -93,12 +94,22 @@ public class Class {
 
 	public double getClassAverage() throws DivideByZeroException {
 		double totalClass = 0;
+		//MSC58-J Prefer using iterators over enumerations
+		Iterator<Student> stu = students.iterator();
+		while(stu.hasNext())
+		{
+			totalClass += stu.next().getTotalGrade();
+		}
+		/*
 		for (int i = 0; i < students.size(); i++) {
 			totalClass += students.get(i).getTotalGrade();
 		}
+		*/
+		
 		// NUM02-J. Ensure that division and remainder operations do not result in
 		// divide-by-zero errors
 		// ERR51-J. Prefer user-defined exceptions over more general exception types
+		//ERR07-J. Do not throw Runtime Exception, Exception, or Throwable
 		double average = (totalClass / students.size());
 		if (Double.isNaN(average) || Double.isInfinite(average)) {
 			throw new DivideByZeroException("Division by Zero Error");
@@ -108,9 +119,17 @@ public class Class {
 
 	public double getGradeItemAverage(int gradeItemIndex) {
 		double total = 0;
+		Iterator<Student> stu = students.iterator();
+		while(stu.hasNext())
+		{
+			total += stu.next().getGrade(gradeItemIndex).getEarnedPoints(); 
+		}
+		/*
 		for (int i = 0; i < students.size(); i++) {
 			total += students.get(i).getGrade(gradeItemIndex).getEarnedPoints();
 		}
+		*/
+
 		// NUM02-J. Ensure that division and remainder operations do not result in
 		// divide-by-zero errors
 		double average = 0;
@@ -232,7 +251,8 @@ public class Class {
 		System.out.println();
 
 	}
-
+	//ERRO7-J. Do not throw Runtime Exception, Exception, or Throwable
+	//OBJ08-J. Do not expose private members of an outer class from within a nested class 
 	class DivideByZeroException extends Exception {
 		public DivideByZeroException(String str) {
 			super(str);
