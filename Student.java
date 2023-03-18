@@ -110,4 +110,24 @@ public final class Student {
 			System.out.println(grades.get(i).toString());
 		}
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		// EXP52-J. Use braces for the body of an if, for, or while statement
+		// EXP51-J. Do not perform assignments in conditional expressions
+		if (o == this) {
+			return true;
+		}
+		// OBJ09-J. Compare classList and not class names
+		if (this.getClass() != o.getClass()) {
+			return false;
+		}
+		Student student = (Student) o;
+		// NUM11-J. Do not compare or inspect the string representation of
+		// floating-point values
+		// EXP02-J: Do not use the Object.equals() method to compare two arrays
+		// EXP51-J. Do not perform assignments in conditional expressions
+		return GPA == student.GPA && Arrays.equals(classList, student.classList);
+	}
+	
 }
