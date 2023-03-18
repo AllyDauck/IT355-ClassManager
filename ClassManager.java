@@ -38,11 +38,6 @@ public class ClassManager {
 	// no temporary files needed
 
 
-	// Rule Code: EXP02-J Do not use the Object.equals() method to compare two
-	// arrays
-	// this is not relevant as we decided to use vectors to avoid array
-	// innefficiency
-
 	// Do not compare or inspect the string representation of floating-point values
 	// floating point values are not permitted in this program and will be checked
 	// during input validation
@@ -180,7 +175,7 @@ public class ClassManager {
 				boolean duplicate = false;
 				ArrayList<Student> temp = classes.get(classes.size() - 1).getStudentList();
 				for (int j = 0; j < temp.size(); j++) {
-					if (temp.get(j).equals(temp)) {
+					if (temp.get(j).equals(toAdd)) {
 						duplicate = true;
 					}
 				}
