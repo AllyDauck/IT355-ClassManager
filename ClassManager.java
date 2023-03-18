@@ -27,7 +27,7 @@ public class ClassManager {
 	// compliant by not including a debugging method in the final product
 
 	// Rule Code: ERR07-J Do not throw Runtime Exception, Exception, or Throwable
-	// no exceptions will be thrown
+	// no exceptions will be thrown as we are handling all the exceptions
 
 	// Rule Code: NUM09-J Do not use floating-point variables as loop counters
 	// all counters used are ints
@@ -37,12 +37,6 @@ public class ClassManager {
 	// Rule Code: FIO03-J Remove temporary files before termination
 	// no temporary files needed
 
-	// Rule Code: EXP03-J Do not use the equality operators when comparing values of
-	// boxed primitives
-	//
-
-	// Rule Code: MET06-J Do not invoke overridable methods in clone()
-	//
 
 	// Rule Code: EXP02-J Do not use the Object.equals() method to compare two
 	// arrays
@@ -562,6 +556,9 @@ public class ClassManager {
 	// Recommendation: MET54-J. Always provide feedback about the resulting value of
 	// a method
 	// IDS03-J. Do not log unsanitized user input
+	// IDS00-J: Prevent SQL Injection while we are not using an sql database currently
+	// we have still included SQL Injection characters in our string validator for
+	// future updates that may include storing the values in a database
 	private static boolean stringValidation(String validate) {
 		validate = Normalizer.normalize(validate, Form.NFKC);
 
