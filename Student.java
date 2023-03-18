@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * <insert class description here>
@@ -118,7 +119,7 @@ public final class Student {
 		if (o == this) {
 			return true;
 		}
-		// OBJ09-J. Compare classList and not class names
+		// OBJ09-J. Compare classes and not class names
 		if (this.getClass() != o.getClass()) {
 			return false;
 		}
@@ -127,7 +128,11 @@ public final class Student {
 		// floating-point values
 		// EXP02-J: Do not use the Object.equals() method to compare two arrays
 		// EXP51-J. Do not perform assignments in conditional expressions
-		return GPA == student.GPA && Arrays.equals(classList, student.classList);
+		if ((firstName.equals(student.firstName)) && (lastName.equals(student.lastName)
+				&& (studentID.equals(student.studentID)) && (grades.toArray().equals(student.grades.toArray())))) {
+			return true;
+		}
+		return false;
 	}
-	
+
 }
