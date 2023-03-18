@@ -43,15 +43,17 @@ public final class GradeItem {
 	}
 
 	public double getGradePercent() {
-		double percent = 0;
 		// NUM02-J. Ensure that division and remainder operations do not result in
 		// divide-by-zero errors
 		// Recommendation: EXP53-J. Use parentheses for precedence of operation
 		// Recommendation: NUM50-J. Convert integers to floating point for
 		// floating-point operations
-		if (maxPoints != 0) {
-			percent = ((double) earnedPoints / (double) maxPoints) * 100;
+		// NUM11-J. Do not compare or inspect the string representation of
+		// floating-point values, Double compare used to account for tolerance
+		if (Double.compare(maxPoints, 0.0) == 0) {
+			System.out.println("This assignemnt out of zero, Extra credit");
+			return 100;
 		}
-		return percent;
+		return (((double) earnedPoints / (double) maxPoints) * 100);
 	}
 }
