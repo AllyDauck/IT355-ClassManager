@@ -23,10 +23,11 @@ public final class Student {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.studentID = studentID;
+
 		// MET05-J. Ensure that constructors do not call overridable methods.
 		// the getName method is not overridable because it was declared as final.
-		// Therefore we can use it in the constructor.
-		System.out.println("Student " + this.getName() + " added.");
+		// Therefore we can use it in the constructor. No other overridable methods are called
+		//System.out.println("Student " + this.getName() + " added.");
 
 		grades = new ArrayList<GradeItem>();
 	}

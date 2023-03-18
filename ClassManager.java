@@ -99,7 +99,7 @@ public class ClassManager {
 	// Recommendation: MET50-J: Avoid ambiguous or confusing uses of overloading.
 	// We do not use overloading, but could have in several instances. One way the
 	// SEI CERT document suggest to uphold this recommendation is to not use
-	// overloading and to just use different method names.
+	// overloading and to just use different method names as we have done.
 
 	// Recommendation: ERR53-J. Try to gracefully recover from system errors
 	// try-catches used where system errors may occur and allow program to recover
@@ -177,7 +177,17 @@ public class ClassManager {
 				String[] studentArray = line.split(",");
 				Student toAdd = new Student(studentArray[1], studentArray[0].substring(1),
 						studentArray[2].substring(0, studentArray[2].length() - 1));
-				classes.get(classes.size() - 1).addStudent(toAdd);
+				boolean duplicate = false;
+				ArrayList<Student> temp = classes.get(classes.size() - 1).getStudentList();
+				for (int j = 0; j < temp.size(); j++) {
+					if (temp.get(j).equals(temp)) {
+						duplicate = true;
+					}
+				}
+				if (!duplicate) {
+					classes.get(classes.size() - 1).addStudent(toAdd);
+					System.out.println("Student " + toAdd.getName() + " added.");
+				}
 				for (int j = 3; j < gradesArray.length + 2; j++) {
 					classes.get(classes.size() - 1).getStudent(classes.get(classes.size() - 1).getClassSize() - 1)
 							.updateGrade(j - 3, Integer.parseInt(studentArray[j]));
@@ -358,6 +368,7 @@ public class ClassManager {
 			studentID = scanner.nextLine();
 		}
 		classes.get(classIndex).addStudent(new Student(firstName, lastName, studentID));
+		System.out.println("Student " + firstName + " " + lastName + " added.");
 	}
 
 	// actual code for adding gradeItem object
