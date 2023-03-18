@@ -565,7 +565,7 @@ public class ClassManager {
 	private static boolean stringValidation(String validate) {
 		validate = Normalizer.normalize(validate, Form.NFKC);
 
-		Pattern pattern = Pattern.compile("[A-Za-z0-9.]+");
+		Pattern pattern = Pattern.compile("[A-Za-z0-9._-]+");
 		Matcher matcher = pattern.matcher(validate);
 		// EXP550J Use the same type for second and third operands in conditional
 		// expressions
@@ -578,4 +578,4 @@ public class ClassManager {
 		}
 	}
 
-}// SQL trim special characters
+}
