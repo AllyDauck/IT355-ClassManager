@@ -561,7 +561,6 @@ public class ClassManager {
 	// future updates that may include storing the values in a database
 	private static boolean stringValidation(String validate) {
 		validate = Normalizer.normalize(validate, Form.NFKC);
-
 		Pattern pattern = Pattern.compile("[A-Za-z0-9._-]+");
 		Matcher matcher = pattern.matcher(validate);
 		// EXP550J Use the same type for second and third operands in conditional

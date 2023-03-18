@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <insert class description here>
@@ -14,7 +16,7 @@ public final class Student {
 	private String firstName;
 	private String lastName;
 	private String studentID;
-	private ArrayList<GradeItem> grades;
+	private List<GradeItem> grades;
 
 	// Rule Code: OBJ11-J Be wary of letting constructors throw exceptions
 	public Student(String firstName, String lastName, String studentID) {
@@ -59,16 +61,14 @@ public final class Student {
 	}
 
 	// Rule Code: OBJ05-J. Do not return references to private mutable class members
-	public ArrayList<GradeItem> getGradesList() {
-		ArrayList<GradeItem> newGrades = new ArrayList<GradeItem>();
-		for (int i = 0; i < grades.size(); i++) {
-			newGrades.add(new GradeItem(grades.get(i).getGradeItemName(), grades.get(i).getMaxPoints()));
-			newGrades.get(i).setEarnedPoints(grades.get(i).getEarnedPoints());
-		}
-		return newGrades;
+	// Rule Code: OBJ56-J. Provide sensitive mutable classes with unmodifiable
+	// wrappers.
+	public List<GradeItem> getGradesList() {
+		return Collections.unmodifiableList(grades);
 	}
 
-	public void setGradesList(ArrayList<GradeItem> toMatch) {
+	public void setGradesList(List<GradeItem> toMatch) {
+		toMatch = Collections.unmodifiableList(toMatch);
 		for (int i = grades.size(); i < toMatch.size(); i++) {
 			addGrade(toMatch.get(i));
 		}
