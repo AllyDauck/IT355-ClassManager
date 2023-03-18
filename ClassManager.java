@@ -565,16 +565,16 @@ public class ClassManager {
 	private static boolean stringValidation(String validate) {
 		validate = Normalizer.normalize(validate, Form.NFKC);
 
-		Pattern pattern = Pattern.compile("[A-Za-z0-9_]+");
+		Pattern pattern = Pattern.compile("[A-Za-z0-9.]+");
 		Matcher matcher = pattern.matcher(validate);
 		// EXP550J Use the same type for second and third operands in conditional
 		// expressions
 		if (matcher.find()) {
-			// Found blacklisted tag
-			return false;
-		} else {
 			// no blacklisted tag
 			return true;
+		} else {
+			// found blacklisted tag
+			return false;
 		}
 	}
 
