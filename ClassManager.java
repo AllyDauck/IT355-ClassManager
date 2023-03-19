@@ -1,7 +1,11 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
@@ -152,23 +156,26 @@ public class ClassManager {
 			System.out.println("Please enter the file name: ");
 			fileName = scanner.nextLine();
 		}
-		Scanner fileRead = null;
+		InputStream inputStream = null;
 		try {
-			fileRead = new Scanner(new File(fileName));
-			String firstLine = fileRead.nextLine();
+			// Do stuff with fil
+			// FIO08-J: Distinguish between characters or bytes read from a stream and -1
+			inputStream = new FileInputStream(fileName);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			String firstLine = reader.readLine();
 			String[] firstLineArray = firstLine.split(",");
 			classes.add(new Class(firstLineArray[0], firstLineArray[1], firstLineArray[2]));
-			String secondLine = fileRead.nextLine();
+			String secondLine = reader.readLine();
 			String[] gradesArray = secondLine.split(",");
-			String thirdLine = fileRead.nextLine();
+			String thirdLine = reader.readLine();
 			String[] gradesPointsArray = thirdLine.split(",");
 			for (int i = 1; i < gradesArray.length; i++) {
 				GradeItem toAdd = new GradeItem(gradesArray[i], Integer.parseInt(gradesPointsArray[i]));
 				classes.get(classes.size() - 1).addGradeItem(toAdd);
 			}
-			fileRead.nextLine();
-			while (fileRead.hasNextLine()) {
-				String line = fileRead.nextLine();
+			reader.readLine();
+			String line;
+			while ((line = reader.readLine()) != null) {
 				String[] studentArray = line.split(",");
 				Student toAdd = new Student(studentArray[1], studentArray[0].substring(1),
 						studentArray[2].substring(0, studentArray[2].length() - 1));
@@ -177,6 +184,7 @@ public class ClassManager {
 				for (int j = 0; j < temp.size(); j++) {
 					if (temp.get(j).equals(toAdd)) {
 						duplicate = true;
+						break;
 					}
 				}
 				if (!duplicate) {
@@ -190,14 +198,16 @@ public class ClassManager {
 			}
 			System.out.println();
 			System.out.println("File successful read.");
-		} // ERR07-J Do not throw Runtime Exception, Exception, or Throwable
-		catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		} finally {
-			// ERR08-J. Do not catch NullPointerException or any of its ancestors
-			if (fileRead != null) {
-				// FIO04-J Release resources when they are no longer needed
-				fileRead.close();
+			if (inputStream != null) {
+				try {
+					// FIO04-J Release resources when they are no longer needed
+					inputStream.close();
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				}
 			}
 		}
 	}
