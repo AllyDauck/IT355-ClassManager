@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Random;
 
 /**
  * <insert class description here>
@@ -111,7 +112,7 @@ public class ClassManager {
 	// Rule Code: OBJ13-J. Ensure that references to mutable objects are not exposed
 	private static final String[] OPTIONS = { "Add a class", "Manage a class", "Exit" }; // array of options
 	private static final String[] CLASS_MANAGE_OPTIONS = { "View all", "Manage students", "Manage grade items",
-			"Update student grade item", "Display class average", "Save to CSV", "Exit" };
+			"Update student grade item", "Display class average", "Generate class groups", "Save to CSV", "Exit" };
 	private static final String[] STUDENTS_MANAGE_OPTIONS = { "View all students", "Add a student", "Exit" };
 	private static final String[] GRADEITEMS_MANAGE_OPTIONS = { "View all grade items", "View one grade item",
 			"Add a grade item", "Exit" };
@@ -390,7 +391,8 @@ public class ClassManager {
 			choiceCheck = scanner.nextLine();
 			scanInput = new Scanner(choiceCheck);
 		}
-		//Rule Code EXP03-J. Do not use the equality operators when comparing values of boxed primitives.
+		// Rule Code EXP03-J. Do not use the equality operators when comparing values of
+		// boxed primitives.
 		Integer maxPoints = Integer.parseInt(choiceCheck);
 		if (!maxPoints.equals(null)) {
 			size = classes.get(classIndex).addGradeItem(new GradeItem(name, maxPoints));
@@ -496,11 +498,58 @@ public class ClassManager {
 				case 5:// display class average
 					System.out.println("Class Average: " + format.format(classes.get(classIndex).getClassAverage()));
 					break;
-				case 6:// save to CSV
+				case 6:
+					System.out.println("Please enter the group size: ");
+					String groupSize = scanner.nextLine();
+					Scanner scanInt = new Scanner(groupSize);
+					// IDS03-J. Do not log unsanitized user input
+					while (!scanInt.hasNextInt()) {
+						System.out.println("Invalid input, please enter a number.");
+						groupSize = scanner.nextLine();
+						scanInt = new Scanner(groupSize);
+					}
+					if (Integer.parseInt(groupSize) == 0) {
+						System.out.println("A group cannot have 0 members. ");
+					} else {
+						int checkGroups = makeGroups(classIndex, Integer.parseInt(groupSize));
+						if (checkGroups != 0) {
+							System.out.println("Sorry that group size will not work.\nYou will have " + checkGroups
+									+ " leftover students.");
+						}
+					}
+
+					break;
+				case 7:// save to CSV
 					saveFile(classIndex);
 					break;
 			}
-		} while (classManageSelection != 7);
+		} while (classManageSelection != 8);
+	}
+
+	private static int makeGroups(int classIndex, int groupSizes) {
+		int classSize = classes.get(classIndex).getClassSize();
+		int evenGrouping = classSize % groupSizes;
+		if (classSize % groupSizes == 0) {
+			Random pickStudents = new Random();
+			ArrayList<Integer> alreadyPicked = new ArrayList<Integer>();
+			for (int i = 0; i < (classSize / groupSizes); i++) {
+				System.out.println("Group " + (i + 1) + ": ");
+				for (int j = 0; j < groupSizes; j++) {
+					int nextStudent = pickStudents.nextInt(classSize);
+					while (alreadyPicked.contains(nextStudent)) {
+						nextStudent = pickStudents.nextInt(classSize);
+					}
+					alreadyPicked.add(nextStudent);
+					System.out.println(classes.get(classIndex).getStudent(nextStudent).getName());
+				}
+			}
+			return 0;
+		} else {
+			// NUM51-J. Do not assume that the remainder operator always returns a
+			// nonnegative result for integral operands
+			evenGrouping = Math.abs(evenGrouping);
+			return evenGrouping;
+		}
 	}
 
 	private static void enterGrades(int classIndex, int gradeIndex) {
