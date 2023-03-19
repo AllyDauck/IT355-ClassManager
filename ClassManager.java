@@ -37,7 +37,6 @@ public class ClassManager {
 	// Rule Code: FIO03-J Remove temporary files before termination
 	// no temporary files needed
 
-
 	// Do not compare or inspect the string representation of floating-point values
 	// floating point values are not permitted in this program and will be checked
 	// during input validation
@@ -144,7 +143,7 @@ public class ClassManager {
 		System.gc();
 	}
 
-	private static void readFile() {
+	private final static void readFile() {
 		System.out.println("Please enter the file name: ");
 		String fileName = scanner.nextLine();
 		while (!stringValidation(fileName)) {
@@ -173,7 +172,8 @@ public class ClassManager {
 				Student toAdd = new Student(studentArray[1], studentArray[0].substring(1),
 						studentArray[2].substring(0, studentArray[2].length() - 1));
 				boolean duplicate = false;
-				ArrayList<Student> temp = classes.get(classes.size() - 1).getStudentList();
+				// Rule Code MET06-J. Do not invoke overridable methods in clone()
+				ArrayList<Student> temp = (ArrayList<Student>) classes.get(classes.size() - 1).getStudentList().clone();
 				for (int j = 0; j < temp.size(); j++) {
 					if (temp.get(j).equals(toAdd)) {
 						duplicate = true;
@@ -368,6 +368,7 @@ public class ClassManager {
 
 	// actual code for adding gradeItem object
 	private static int addGradeItemToClass(int classIndex) {
+		int size = 0;
 		System.out.print("\nEnter grade item name: ");
 		String name = scanner.nextLine();
 		System.out.print("Enter max points: ");
@@ -379,8 +380,11 @@ public class ClassManager {
 			choiceCheck = scanner.nextLine();
 			scanInput = new Scanner(choiceCheck);
 		}
-		int maxPoints = Integer.parseInt(choiceCheck);
-		int size = classes.get(classIndex).addGradeItem(new GradeItem(name, maxPoints));
+		//Rule Code EXP03-J. Do not use the equality operators when comparing values of boxed primitives.
+		Integer maxPoints = Integer.parseInt(choiceCheck);
+		if (!maxPoints.equals(null)) {
+			size = classes.get(classIndex).addGradeItem(new GradeItem(name, maxPoints));
+		}
 		return size;
 	}
 
@@ -562,7 +566,8 @@ public class ClassManager {
 	// Recommendation: MET54-J. Always provide feedback about the resulting value of
 	// a method
 	// IDS03-J. Do not log unsanitized user input
-	// IDS00-J: Prevent SQL Injection while we are not using an sql database currently
+	// IDS00-J: Prevent SQL Injection while we are not using an sql database
+	// currently
 	// we have still included SQL Injection characters in our string validator for
 	// future updates that may include storing the values in a database
 	private static boolean stringValidation(String validate) {
