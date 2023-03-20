@@ -37,12 +37,7 @@ public class ClassManager {
 	// Rule Code: NUM09-J Do not use floating-point variables as loop counters
 	// all counters used are ints
 
-	// Rule Code: OBJ10-J Do not use public static nonfinal fields
-
-	// Rule Code: FIO03-J Remove temporary files before termination
-	// no temporary files needed
-
-	// Rule Code: ERR05-J Do not let checked exceptions escape from a finally block 
+	// Rule Code: OBJ10-J Do not use public static nonfinal fields 
 
 	// Do not compare or inspect the string representation of floating-point values
 	// floating point values are not permitted in this program and will be checked
