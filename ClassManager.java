@@ -42,6 +42,8 @@ public class ClassManager {
 	// Rule Code: FIO03-J Remove temporary files before termination
 	// no temporary files needed
 
+	// Rule Code: ERR05-J Do not let checked exceptions escape from a finally block 
+
 	// Do not compare or inspect the string representation of floating-point values
 	// floating point values are not permitted in this program and will be checked
 	// during input validation
@@ -156,12 +158,11 @@ public class ClassManager {
 			System.out.println("Please enter the file name: ");
 			fileName = scanner.nextLine();
 		}
-		InputStream inputStream = null;
-		try {
+		//ERR54-J. Use a try-with-resources statement to safely handle closeable resources
+		try(InputStream inputStream = new FileInputStream(fileName);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
 			// Do stuff with fil
 			// FIO08-J: Distinguish between characters or bytes read from a stream and -1
-			inputStream = new FileInputStream(fileName);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String firstLine = reader.readLine();
 			String[] firstLineArray = firstLine.split(",");
 			classes.add(new Class(firstLineArray[0], firstLineArray[1], firstLineArray[2]));
@@ -201,16 +202,8 @@ public class ClassManager {
 			System.out.println("File successful read.");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-		} finally {
-			if (inputStream != null) {
-				try {
-					// FIO04-J Release resources when they are no longer needed
-					inputStream.close();
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
-				}
-			}
 		}
+		
 	}
 
 	private static void saveFile(int classIndex) {
@@ -282,11 +275,20 @@ public class ClassManager {
 		} // ERR07-J Do not throw Runtime Exception, Exception, Throwable
 		catch (IOException e) {
 			System.out.println(e.getMessage());
-		} finally {
+		} 
+		//ERR05-J Do not let checked exceptions escape from a finally block 
+		finally {
 			// ERR08-J. Do not catch NullPointerException or any of its ancestors
 			if (printer != null) {
 				// FIO04-J Release resources when they are no longer needed
-				printer.close();
+				try
+				{
+					printer.close();
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
 			}
 
 		}
